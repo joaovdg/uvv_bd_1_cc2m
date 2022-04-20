@@ -88,7 +88,7 @@ ALTER TABLE IF EXISTS elmasri.dependente
     
     
     
-                                                     --Criação da tabela Funcionário  AINDA TA BUGADA;
+                                                     --Criação da tabela Localizaçoes_departamento;
                                                      
      CREATE TABLE IF NOT EXISTS elmasri.dependente
 (
@@ -111,7 +111,7 @@ ALTER TABLE IF EXISTS elmasri.dependente
     
     
     
-                                                    --Criação da tabela Localizaçoes_departamento;
+                                                    --Criação da tabela Funcionario BUGADA;
                                                     
     CREATE TABLE IF NOT EXISTS elmasri.funcionario
 (
