@@ -12,7 +12,7 @@ USE uvv;
 /* 4.1 CRIAÇÃO DA TABELA FUNCIONARIO */
 
 CREATE TABLE funcionario (
-    cpf CHAR (11),
+    cpf CHAR (11) NOT NULL,
     primeiro_nome VARCHAR(15) NOT NULL,
     nome_meio CHAR (1),
     ultimo_nome VARCHAR(15) NOT NULL,
@@ -20,7 +20,8 @@ CREATE TABLE funcionario (
     endereco VARCHAR (50),
     sexo CHAR (1),
     salario DECIMAL(10,2),
-    cpf_supervisor CHAR (11),
+    cpf_supervisor CHAR (11) NOT NULL,
+    numero_departamento int NOT NULL,
     PRIMARY KEY (cpf),
     FOREIGN KEY (cpf_supervisor) REFERENCES funcionario (cpf)
 );
@@ -40,7 +41,7 @@ CREATE TABLE dependente (
 
 CREATE TABLE departamento (
    numero_departamento INT,
-   nome_departamento VARCHAR (15) NOT null,
+   nome_departamento VARCHAR (15) NOT NULL,
    cpf_gerente CHAR (11),
    data_inicio_gerente DATE,
    PRIMARY KEY (numero_departamento),
