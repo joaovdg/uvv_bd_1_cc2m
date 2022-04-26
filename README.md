@@ -1,6 +1,7 @@
-# uvv_bd_1_cc2m
+Materia: Banco de Dados
+Aluno: João Lucas Saraiva
+Professor: Abrantes Araujo
 
-ALUNO: João Lucas Saraiva
-PROFESSOR: Abrantes
-É o repositório da disciplina de Design e Desenvolvimento de Banco de Dados, Universidade Vila Velha - UVV
 
+PROJETO PSET:
+CRIAÇAO E INSERÇAO DE DADOS NOS SGBDS POSTGRESQL E MARIADB
