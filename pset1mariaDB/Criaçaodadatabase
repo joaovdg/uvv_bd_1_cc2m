@@ -20,7 +20,7 @@ CREATE TABLE funcionario (
     endereco VARCHAR (50),
     sexo CHAR (1),
     salario DECIMAL(10,2),
-    cpf_supervisor CHAR (11) NOT NULL,
+    cpf_supervisor CHAR (11) ,
     numero_departamento int NOT NULL,
     PRIMARY KEY (cpf),
     FOREIGN KEY (cpf_supervisor) REFERENCES funcionario (cpf)
