@@ -134,13 +134,11 @@ ORDER BY d.nome_departamento;
 /*
 QUESTÃO 10
 */
-SELECT 
-CONCAT('R$ ', ROUND((AVG(f.salario)),2)) AS "Média Salarial",
-d.nome_departamento AS "Departamento"
 
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.departamento AS d ON d.numero_departamento = f.numero_departamento
-GROUP BY d.numero_departamento;
+SELECT d.numero_departamento, AVG(salario) AS media_salarial
+FROM funcionarios AS f, departamento AS d
+WHERE d.numero_departamento = f.numero_departamento
+GROUP BY d.numero_departamento ;
 /*
 QUESTÃO 11
 */
