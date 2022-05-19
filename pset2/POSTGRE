@@ -84,21 +84,14 @@ INNER JOIN elmasri.funcionario AS f ON f.cpf = dp.cpf_funcionario;
 QUESTÃO 07
 */
 
-SELECT 
-CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo",
-d.nome_departamento AS "Departamento",
-CONCAT('R$ ',ROUND((f.salario),2)) AS "Salário"
-
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.departamento AS d ON d.numero_departamento = f.numero_departamento
-WHERE f.cpf NOT IN (
-    
-    SELECT 
-    dp.cpf_funcionario
-    FROM elmasri.dependente AS dp
-
-
-);
+select (f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS Funcionario
+       , d.nume_departamento as departamento
+       , f.salario as salario
+from funcionario f 
+left join dependente dp on (dp.cpf_funcionario = f.cpf)
+inner join departamento d on (d.numero_departamento = f.numero_departamento)
+where dp.nome_dependente is null
+;
 
 /*
 QUESTÃO 08
