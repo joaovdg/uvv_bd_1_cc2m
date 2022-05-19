@@ -1,35 +1,28 @@
 /*
-QUESTÃO 01: prepare um relatório que mostre a média salarial dos funcionários
-de cada departamento.
+QUESTÃO 1
 */ 
 
-SELECT 
-d.numero_departamento AS "Nº Departamento",
-d.nome_departamento AS "Departamento",
-CONCAT('R$ ', ROUND((SUM(f.salario) / COUNT(*)),2)) AS "Média Salarial"
+select d.nome_departamento as departamento
+,   avg(f.salario)         as salario_medio
+from funcionario f
+inner join departamento d on (f.numero_departamento = d.numero_departamento)
+group by d.nome_departamento
+;
 
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.departamento AS d ON f.numero_departamento = d.numero_departamento
-GROUP BY d.nome_departamento, d.numero_departamento;
 
 /*
-QUESTÃO 02: prepare um relatório que mostre a média salarial dos homens e das
-mulheres.
+QUESTÃO 02
 */
 
-SELECT 
-f.sexo AS "Sexo",
-CONCAT('R$ ', ROUND((SUM(f.salario) / COUNT(*)),2)) AS "Média Salarial"
-
-FROM elmasri.funcionario AS f
-
-GROUP BY f.sexo;
+select sexo          as sexo
+,    avg(salario)    as sario_medio
+from funcionario
+group by sexo
+;
 
 
 /*
-QUESTÃO 03: prepare um relatório que liste o nome dos departamentos e, para
-cada departamento, inclua as seguintes informações de seus funcionários: o nome
-completo, a data de nascimento, a idade em anos completos e o salário.
+QUESTÃO 03
 */
 
 SELECT 
@@ -45,11 +38,7 @@ INNER JOIN elmasri.funcionario AS f ON f.numero_departamento = d.numero_departam
 ORDER BY nome_departamento;
 
 /*
-QUESTÃO 04: prepare um relatório que mostre o nome completo dos funcionários, 
-a idade em anos completos, o salário atual e o salário com um reajuste que 
-obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o
-reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a
-35.000 o reajuste deve ser de 15%.
+QUESTÃO 04
 */
 
 SELECT
@@ -64,13 +53,17 @@ f.salario AS "Salário Atual",
     END AS "Salário Reajuste"
 
 FROM elmasri.funcionario AS f;
+/*
+QUESTÃO 05
+*/
+SELECT d.nome_departamento, (f.primeiro_nome ||' '|| f.nome_meio ||' '|| f.ultimo_nome) AS nome_completo, f.salario
+FROM departamento AS d, funcionarios AS f
+WHERE d.numero_departamento = f.numero_departamento
+ORDER BY d.nome_departamento ASC, f.salario DESC;
+
 
 /*
-QUESTÃO 06: prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, 
-o departamento onde eles trabalham e, para cada funcionário, 
-também liste o nome completo dos dependentes, a idade em anos de cada
-dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer
-como “Masculino” ou “Feminino”).
+QUESTÃO 06
 */
 
 SELECT
@@ -87,8 +80,7 @@ FROM elmasri.dependente AS dp
 INNER JOIN elmasri.funcionario AS f ON f.cpf = dp.cpf_funcionario;
 
 /*
-QUESTÃO 07: prepare um relatório que mostre, para cada funcionário que NÃO
-TEM dependente, seu nome completo, departamento e salário.
+QUESTÃO 07
 */
 
 SELECT 
@@ -108,9 +100,7 @@ WHERE f.cpf NOT IN (
 );
 
 /*
-QUESTÃO 08: prepare um relatório que mostre, para cada departamento, os projetos desse departamento 
-e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o 
-número de horas trabalhadas por cada funcionário, em cada projeto.
+QUESTÃO 08
 */
 
 SELECT
@@ -126,9 +116,7 @@ INNER JOIN elmasri.trabalha_em AS tbm ON tbm.numero_projeto = p.numero_projeto
 INNER JOIN elmasri.funcionario AS f ON f.cpf = tbm.cpf_funcionario;
 
 /*
-QUESTÃO 09: prepare um relatório que mostre a soma total das horas de cada
-projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, 
-o nome do projeto e a soma total das horas.
+QUESTÃO 09
 */
 SELECT
 
@@ -144,8 +132,7 @@ GROUP BY p.nome_projeto, d.nome_departamento
 ORDER BY d.nome_departamento;
 
 /*
-QUESTÃO 10: prepare um relatório que mostre a média salarial dos funcionários
-de cada departamento.
+QUESTÃO 10
 */
 SELECT 
 CONCAT('R$ ', ROUND((AVG(f.salario)),2)) AS "Média Salarial",
@@ -155,10 +142,10 @@ FROM elmasri.funcionario AS f
 INNER JOIN elmasri.departamento AS d ON d.numero_departamento = f.numero_departamento
 GROUP BY d.numero_departamento;
 /*
-QUESTÃO 11: considerando que o valor pago por hora trabalhada em um projeto
-é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o
-nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.
+QUESTÃO 11
 */
+
+
 SELECT 
 CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo",
 p.nome_projeto AS "Nome do Projeto",
@@ -170,12 +157,11 @@ INNER JOIN elmasri.projeto AS p ON p.numero_projeto = tbm.numero_projeto
 GROUP BY f.cpf, p.nome_projeto, tbm.horas;
 
 /*
-QUESTÃO 12: seu chefe está verificando as horas trabalhadas pelos funcionários
-nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum
-projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste 
-o nome do departamento, o nome do projeto e o nome dos funcionários
-que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.
+QUESTÃO 12
 */
+
+
+
 SELECT 
 d.nome_departamento AS "Nome Departamento",
 p.nome_projeto AS "Nome do Projeto",
@@ -187,15 +173,15 @@ INNER JOIN elmasri.trabalha_em AS tbm ON tbm.numero_projeto = p.numero_projeto
 INNER JOIN elmasri.funcionario AS f ON f.cpf = tbm.cpf_funcionario
 
 WHERE tbm.horas IS NULL;
+
+
 /*
-QUESTÃO 13: durante o natal deste ano a empresa irá presentear todos os funcionários e todos os 
-dependentes (sim, a empresa vai dar um presente para cada
-funcionário e um presente para cada dependente de cada funcionário) e pediu para
-que você preparasse um relatório que listasse o nome completo das pessoas a serem
-presenteadas (funcionários e dependentes), o sexo e a idade em anos completos
-(para poder comprar um presente adequado). Esse relatório deve estar ordenado
-pela idade em anos completos, de forma decrescente.
+QUESTÃO 13
 */
+
+
+
+
 SELECT 
 CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo",
 EXTRACT(year FROM age(f.data_nascimento)) AS "Idade",
@@ -221,7 +207,7 @@ FROM elmasri.dependente AS dp
 ORDER BY 2 DESC;
 
 /*
-QUESTÃO 14: prepare um relatório que exiba quantos funcionários cada departamento tem.
+QUESTÃO 14
 */
 SELECT
 d.nome_departamento AS "Nome Departamento", 
@@ -231,11 +217,10 @@ FROM elmasri.funcionario AS f
 INNER JOIN elmasri.departamento AS d ON d.numero_departamento = f.numero_departamento
 GROUP BY d.nome_departamento;
 /*
-QUESTÃO 15: como um funcionário pode estar alocado em mais de um projeto,
-prepare um relatório que exiba o nome completo do funcionário, o departamento
-desse funcionário e o nome dos projetos em que cada funcionário está alocado.
-Atenção: se houver algum funcionário que não está alocado em nenhum projeto,
-o nome completo e o departamento também devem aparecer no relatório.
+QUESTÃO 15
+
+
+
 */
 SELECT
 CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo",
