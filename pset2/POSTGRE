@@ -138,15 +138,16 @@ QUESTÃO 11
 */
 
 
-SELECT 
-CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo",
-p.nome_projeto AS "Nome do Projeto",
-CONCAT('R$ ', (tbm.horas * 50)) AS "A receber por horas"
-
-FROM elmasri.funcionario AS f
-INNER JOIN elmasri.trabalha_em AS tbm ON tbm.cpf_funcionario = f.cpf
-INNER JOIN elmasri.projeto AS p ON p.numero_projeto = tbm.numero_projeto
-GROUP BY f.cpf, p.nome_projeto, tbm.horas;
+select
+ CONCAT(f.primeiro_nome,' ', f.nome_meio,' ', f.ultimo_nome) as funcionario
+, p.nome_projeto as projeto
+, te.horas as horas 
+, te.horas * 50 as valor 
+from funcionario f
+inner join trabalha_em on (te.cpf_funcionario = p.numero_projeto)
+inner join projeto p on (te.numero_projeto = p.numero_projeto) 
+order by funcionario
+        , projeto ;
 
 /*
 QUESTÃO 12
@@ -154,17 +155,17 @@ QUESTÃO 12
 
 
 
-SELECT 
-d.nome_departamento AS "Nome Departamento",
-p.nome_projeto AS "Nome do Projeto",
-CONCAT(f.primeiro_nome, ' ',f.nome_meio, '.', ' ', f.ultimo_nome) AS "Nome Completo"
-
-FROM elmasri.departamento AS d
-INNER JOIN elmasri.projeto AS p ON p.numero_departamento = d.numero_departamento
-INNER JOIN elmasri.trabalha_em AS tbm ON tbm.numero_projeto = p.numero_projeto
-INNER JOIN elmasri.funcionario AS f ON f.cpf = tbm.cpf_funcionario
-
-WHERE tbm.horas IS NULL;
+select 
+d.nome_departamento as departamento
+, p.nome_projeto as projeto
+, concat (f.primeiro_nome, ' ', f.nome_meio, ' ', f.ultimo_nome) as funcionario 
+from departamento d 
+inner join projeto p on (p.numero_departamento = d.numero_departamento)
+inner join trabalha_em te on (te.numero_projeto = p.numero_projeto)
+inner join funcionario f on (te.cpf_funcionario = f.cpf)
+where te.horas is null
+or te.horas = 0
+;
 
 
 /*
